@@ -56,7 +56,7 @@ public class Joint extends RobotPart implements Movable {
 
     @Override
     public void updatePosition(Point3D newPosition) {
-        this.position = newPosition;
+        this.setPosition(newPosition);
         group.setTranslateX(newPosition.getX());
         group.setTranslateY(newPosition.getY());
         group.setTranslateZ(newPosition.getZ());
@@ -65,7 +65,7 @@ public class Joint extends RobotPart implements Movable {
 
     public void setRotationAngle(double angle) throws InvalidMovementException {
         if (angle < MIN_ANGLE || angle > MAX_ANGLE) {
-            throw new InvalidMovementException("Angle out of bounds for " + name);
+            throw new InvalidMovementException("Angle out of bounds for " + getName());
         }
         rotateTransform.setAngle(angle);
     }
