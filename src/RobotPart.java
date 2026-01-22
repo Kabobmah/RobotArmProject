@@ -27,7 +27,7 @@ public abstract class RobotPart {
     public abstract void updatePosition(Point3D newPosition);
 
 
-    public final String getName() { return name; }
+
 
 }
 
