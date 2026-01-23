@@ -120,7 +120,7 @@ public class Main extends Application {
     private void startAnimation() {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(33), e -> {
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(33), _-> {
             double time = System.currentTimeMillis() / 1000.0; // time in seconds
 
             double baseAngle = Math.sin(time * 0.5) * 170;
