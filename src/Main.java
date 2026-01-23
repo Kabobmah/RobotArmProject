@@ -148,7 +148,7 @@ public class Main extends Application {
         camera.setTranslateZ(-1200);
         camera.setTranslateY(-300);
 
-        camera.getTransforms().add(new Rotate(-25, Rotate.X_AXIS));
+        camera.getTransforms().add(new Rotate(-15, Rotate.X_AXIS));
         root.getChildren().add(camera);
     }//просто ебаная камера
 
