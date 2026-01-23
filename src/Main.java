@@ -267,7 +267,7 @@ public class Main extends Application {
 
     //-------------------kinematics--------------------------
     // 1. Метод без параметров (использует перегрузку) adhoc overloading poly for extensibility if needed we can turn true and output more info
-    private final void calculateAndPrintJointPositions() {
+    private  void calculateAndPrintJointPositions() {
         calculateAndPrintJointPositions(false);
     }
 
