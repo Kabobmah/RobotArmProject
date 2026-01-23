@@ -136,7 +136,7 @@ public class Main extends Application {
         timeline.getKeyFrames().add(keyFrame);
         timeline.play();
 
-        Timeline stopTimeline = new Timeline(new KeyFrame(Duration.seconds(5), e -> timeline.stop()));
+        Timeline stopTimeline = new Timeline(new KeyFrame(Duration.seconds(5), _ -> timeline.stop()));
         stopTimeline.play();
     }
 
