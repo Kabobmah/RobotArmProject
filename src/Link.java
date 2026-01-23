@@ -26,7 +26,7 @@ public class Link extends RobotPart {
     }
 
 
-    @Override
+
     public void updatePosition(Point3D newPosition) {
         this.setPosition(newPosition);
         group.setTranslateX(newPosition.getX());

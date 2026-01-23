@@ -1,8 +1,10 @@
-/*import javafx.animation.KeyFrame;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.awt.*;
 import java.util.Objects;
-*/
+
 import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -26,6 +28,7 @@ public class Main extends Application {
     private static final double L1 = 120.0; // Blue link
     private static final double L2 = 100.0; // Yellow link
     private static final double L3 = 60.0;  // Cyan link
+    private  static final double L4 = 160.0;  // Cyan link
 
     private PerspectiveCamera camera; //we declare variable camera of type Perspective camera
     private final Group root = new Group(); // final means the root variable forever reserved for this object
@@ -58,7 +61,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        /*startAnimation();*/
+        startAnimation();
     }//росто ебаная настройка сценф
 
 
@@ -114,7 +117,7 @@ public class Main extends Application {
     }
 
 
-    /* private void startAnimation() {
+    private void startAnimation() {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame keyFrame = new KeyFrame(Duration.millis(33), e -> {
@@ -135,7 +138,7 @@ public class Main extends Application {
 
         Timeline stopTimeline = new Timeline(new KeyFrame(Duration.seconds(5), e -> timeline.stop()));
         stopTimeline.play();
-    }//просто ебанная анимация */
+    }
 
 
     private void setupCamera() {
@@ -184,25 +187,44 @@ public class Main extends Application {
 
         RobotPart link1 = new Link("blue link1", L1); //we can put robotarm her instead of Link ink link1 = new Link("blue link1", L1);  inclusion polymorphism
         ((Link) link1).setMaterial(new PhongMaterial(Color.BLUE));
+        robotArm.addLink((Link) link1);
         robotArm.connect(redJoint, link1);
+
 
         Joint greenJoint = new Joint("green Joint2", new Point3D(0, 0, ((Link) link1).length), 20, 40, Rotate.X_AXIS);
         greenJoint.setMaterial(new PhongMaterial(Color.GREEN));
         robotArm.addJoint(greenJoint);
         robotArm.connect(link1, greenJoint);
 
-        Link link2 = new Link("yellow Link2", L2);
-        link2.setMaterial(new PhongMaterial(Color.YELLOW));
+        RobotPart link2 = new Link("yellow Link2", L2);
+        ((Link)link2).setMaterial(new PhongMaterial(Color.YELLOW));
+        robotArm.addLink((Link) link2);
         robotArm.connect(greenJoint, link2);
 
-        Joint purpleJoint = new Joint("purple joint3", new Point3D(0, 0, link2.length), 18, 35, Rotate.X_AXIS);
+        Joint purpleJoint = new Joint("purple joint3", new Point3D(0, 0, ((Link)link2).length), 18, 35, Rotate.X_AXIS);
         purpleJoint.setMaterial(new PhongMaterial(Color.PURPLE));
         robotArm.addJoint(purpleJoint);
         robotArm.connect(link2, purpleJoint);
 
-        Link link3 = new Link("cyan Link3", L3);
-        link3.setMaterial(new PhongMaterial(Color.CYAN));
+        RobotPart link3 = new Link("cyan Link3", L3);
+        ((Link)link3).setMaterial(new PhongMaterial(Color.CYAN));
+        robotArm.addLink((Link) link3);
         robotArm.connect(purpleJoint, link3);
+
+        Joint newJoint = new Joint("new joint3", new Point3D(0, 0, ((Link)link3).length), 18, 35, Rotate.X_AXIS);
+        newJoint.setMaterial(new PhongMaterial(Color.WHITE));
+        robotArm.addJoint(newJoint);
+        robotArm.connect(link3, newJoint);
+
+        RobotPart link4 = new Link("new Link4", L4);
+        ((Link)link4).setMaterial(new PhongMaterial(Color.BLACK));
+        robotArm.addLink((Link) link4);
+        robotArm.connect(newJoint, link4);
+
+
+
+
+
 
         root.getChildren().add(robotArm.getVisualGroup());
 
@@ -236,6 +258,8 @@ public class Main extends Application {
             case H: robotArm.moveJointDelta(2, angleStep); break;
             case U: robotArm.moveJointDelta(3, -angleStep); break;
             case J: robotArm.moveJointDelta(3, angleStep); break;
+            case I: robotArm.moveJointDelta(4, -angleStep); break;
+            case K: robotArm.moveJointDelta(4, angleStep); break;
             default: break;
         }
 

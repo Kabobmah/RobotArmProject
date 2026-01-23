@@ -9,7 +9,6 @@ public class PartStorage<T extends RobotPart> {
     private final List<T> parts = new ArrayList<>();
 
 
-
     public void addPart(T part) {
         parts.add(part);
         System.out.println("Storage: Added " + part.getName());
@@ -29,6 +28,11 @@ public class PartStorage<T extends RobotPart> {
         for (T part : parts) {
             action.accept(part);
         }
+    }
+
+
+    public List<T> getAllParts() {
+        return parts;
     }
 
 

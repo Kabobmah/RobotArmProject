@@ -24,12 +24,13 @@ public class Joint extends RobotPart implements Movable {
     //adhoc overloading poly
     public Joint(String name, Point3D pos, double rad, double h, Point3D axis, Color color) {
         super(name, pos);
-        this.radius = rad; this.height = h;
-        this.visual = new Cylinder(rad, h);
+        radius = rad;
+        height = h;
+        visual = new Cylinder(rad, h);
         this.visual.setMaterial(new PhongMaterial(color)); // Установка цвета
         this.visual.getTransforms().add(new Rotate(90, Rotate.Z_AXIS));
         this.group.getChildren().add(new Group(visual));
-        updatePosition(pos);
+        applyPosition(pos);
         this.rotateTransform = new Rotate(0, axis);
         this.group.getTransforms().add(rotateTransform);
     }
@@ -47,7 +48,7 @@ public class Joint extends RobotPart implements Movable {
     }
 
 
-    @Override
+
     public void moveDelta(double delta) throws InvalidMovementException {
         double targetAngle = getRotationAngle() + delta;
         setRotationAngle(targetAngle);
@@ -56,12 +57,15 @@ public class Joint extends RobotPart implements Movable {
 
     @Override
     public void updatePosition(Point3D newPosition) {
-        this.setPosition(newPosition);
-        group.setTranslateX(newPosition.getX());
-        group.setTranslateY(newPosition.getY());
-        group.setTranslateZ(newPosition.getZ());
+        applyPosition(newPosition);
     }
-
+    //we call this special constructor method which is final so its not overridable anymore
+    private void applyPosition(Point3D pos) {
+        this.setPosition(pos);
+        this.group.setTranslateX(pos.getX());
+        this.group.setTranslateY(pos.getY());
+        this.group.setTranslateZ(pos.getZ());
+    }
 
     public void setRotationAngle(double angle) throws InvalidMovementException {
         if (angle < MIN_ANGLE || angle > MAX_ANGLE) {
@@ -71,7 +75,7 @@ public class Joint extends RobotPart implements Movable {
     }
 
 
-    @Override
+
     public double getRotationAngle() {
         return rotateTransform.getAngle();
     }

@@ -7,7 +7,7 @@
         // Generic контейнер (Parametric Polymorphism)
         private final PartStorage<Joint> jointStorage = new PartStorage<>();
         private final PartStorage<Link> linkStorage = new PartStorage<>(); // второй склад для дженерика
-
+        private static final double BASE_Y_OFFSET = -15.0;
         private static final double MIN_JOINT_ANGLE = -170.0;
         private static final double MAX_JOINT_ANGLE = 170.0;
 
@@ -51,9 +51,10 @@
             }
         }
 
+
         //-------------------------------------------
         //for animation
-        /*public void moveJoint(int index, double newAngle) {
+        public void moveJoint(int index, double newAngle) {
             Joint joint = jointStorage.getPart(index);
             if (joint == null) return;
 
@@ -65,9 +66,9 @@
                 }
             } catch (InvalidMovementException e) {
                 // Обработка исключения (Exception Handling)
-                System.err.println("Limit reached: " + e.getMessage());
+                System.out.println("Limit reached: " + e.getMessage());
             }
-        }*/
+        }
 
 
         public void moveJointDelta(int index, double deltaAngle) {
@@ -94,25 +95,34 @@
 
 
         private boolean wouldHitFloor(int movedIndex, double potentialAngle) {
-            // Длины звеньев (L1=120, L2=100, L3=60)
-            double l1 = 120.0;
-            double l2 = 100.0;
-            double l3 = 60.0;
+            // 1. Начинаем с высоты плеча
+            double currentY = BASE_Y_OFFSET;
 
-            // Массив для хранения углов (текущие + тот, который хотим изменить)
-            double[] angles = new double[4];
-            for (int i = 0; i < 4; i++) {
-                angles[i] = Math.toRadians(jointStorage.getPart(i).getRotationAngle());
+            // 2. Накопленный угол наклона в плоскости XY (как твои angles[1] + angles[2]...)
+            double cumulativePitch = 0;
+
+            // 3. Проходим по всем суставам, начиная с индекса 1 (Red Joint),
+            // так как индекс 0 (Base) крутит только влево-вправо и на высоту не влияет.
+            for (int i = 1; i < jointStorage.count(); i++) {
+
+                // Берем либо текущий угол, либо потенциальный для проверки
+                double angleDeg = (i == movedIndex) ? potentialAngle : jointStorage.getPart(i).getRotationAngle();
+                cumulativePitch += Math.toRadians(angleDeg);
+
+                // Берем соответствующий линк (Link 0 идет после Joint 1)
+                Link link = linkStorage.getPart(i - 1);
+
+                if (link != null) {
+                    // Считаем высоту конца текущего линка
+                    currentY -= link.length * Math.sin(cumulativePitch);
+
+                    // Если точка ушла ниже пола (в JavaFX Y > 0 — это вниз)
+                    if (currentY > 0) {
+                        return true;
+                    }
+                }
             }
-            angles[movedIndex] = Math.toRadians(potentialAngle);
 
-            // Расчет высоты Y (в JavaFX -Y — это вверх)
-            double y1 = -15.0; // Стартовая высота над полом
-            double y2 = y1 - (l1 * Math.sin(angles[1]));
-            double y3 = y2 - (l2 * Math.sin(angles[1] + angles[2]));
-            double yEnd = y3 - (l3 * Math.sin(angles[1] + angles[2] + angles[3]));
-
-            // Если любая из точек Y > 0, значит она коснулась пола (ушла вниз)
-            return (y2 > 0 || y3 > 0 || yEnd > 0);
+            return false;
         }
     }
