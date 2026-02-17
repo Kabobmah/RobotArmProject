@@ -30,7 +30,10 @@ public class Joint extends RobotPart implements Movable {
         this.visual.setMaterial(new PhongMaterial(color)); // Установка цвета
         this.visual.getTransforms().add(new Rotate(90, Rotate.Z_AXIS));
         this.group.getChildren().add(new Group(visual));
-        applyPosition(pos);
+        this.setPosition(pos);
+        this.group.setTranslateX(pos.getX());
+        this.group.setTranslateY(pos.getY());
+        this.group.setTranslateZ(pos.getZ());
         this.rotateTransform = new Rotate(0, axis);
         this.group.getTransforms().add(rotateTransform);
     }
@@ -55,17 +58,7 @@ public class Joint extends RobotPart implements Movable {
     }
 
 
-    @Override
-    public void updatePosition(Point3D newPosition) {
-        applyPosition(newPosition);
-    }
-    //we call this special constructor method which is final so its not overridable anymore
-    private void applyPosition(Point3D pos) {
-        this.setPosition(pos);
-        this.group.setTranslateX(pos.getX());
-        this.group.setTranslateY(pos.getY());
-        this.group.setTranslateZ(pos.getZ());
-    }
+
 
     public void setRotationAngle(double angle) throws InvalidMovementException {
         if (angle < MIN_ANGLE || angle > MAX_ANGLE) {
