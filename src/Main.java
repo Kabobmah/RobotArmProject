@@ -20,7 +20,6 @@ public class Main extends Application {
 
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 750;
-    private static final double FLOOR_Y_POS = 5.0;
 
     // Link Lengths (Constants for Kinematics)
     private static final double L1 = 120.0; // Blue link

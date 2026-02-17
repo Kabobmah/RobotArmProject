@@ -1,5 +1,4 @@
     import javafx.scene.Group;
-    import javafx.geometry.Point3D;
 
     public final class RobotArm {
         private final Group visualGroup = new Group();
