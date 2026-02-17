@@ -2,8 +2,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.awt.*;
-import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.geometry.Point3D;
@@ -120,7 +118,7 @@ public class Main extends Application {
     private void startAnimation() {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(33), _-> {
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(3), _-> {
             double time = System.currentTimeMillis() / 1000.0; // time in seconds
 
             double baseAngle = Math.sin(time * 0.5) * 170;
@@ -179,8 +177,7 @@ public class Main extends Application {
         robotArm.addJoint(base1);
         robotArm.getVisualGroup().getChildren().add(base1.getVisualGroup());
 
-        Joint redJoint = new Joint("red", new Point3D(0, base1.getHeight() / -2.0, 0), 25, 50, Rotate.X_AXIS);
-        redJoint.setMaterial(new PhongMaterial(Color.RED));
+        Joint redJoint = new Joint("red", new Point3D(0, base1.getHeight() / -2.0, 0), 25, 50, Rotate.X_AXIS,Color.RED);
         robotArm.addJoint(redJoint);
         base1.getVisualGroup().getChildren().add(redJoint.getVisualGroup());
 
@@ -191,8 +188,7 @@ public class Main extends Application {
         robotArm.connect(redJoint, link1);
 
 
-        Joint greenJoint = new Joint("green Joint2", new Point3D(0, 0, ((Link) link1).length), 20, 40, Rotate.X_AXIS);
-        greenJoint.setMaterial(new PhongMaterial(Color.GREEN));
+        Joint greenJoint = new Joint("green Joint2", new Point3D(0, 0, ((Link) link1).length), 20, 40, Rotate.X_AXIS,Color.GREEN);
         robotArm.addJoint(greenJoint);
         robotArm.connect(link1, greenJoint);
 
@@ -201,8 +197,7 @@ public class Main extends Application {
         robotArm.addLink((Link) link2);
         robotArm.connect(greenJoint, link2);
 
-        Joint purpleJoint = new Joint("purple joint3", new Point3D(0, 0, ((Link)link2).length), 18, 35, Rotate.X_AXIS);
-        purpleJoint.setMaterial(new PhongMaterial(Color.PURPLE));
+        Joint purpleJoint = new Joint("purple joint3", new Point3D(0, 0, ((Link)link2).length), 18, 35, Rotate.X_AXIS, Color.PURPLE);
         robotArm.addJoint(purpleJoint);
         robotArm.connect(link2, purpleJoint);
 
@@ -211,7 +206,7 @@ public class Main extends Application {
         robotArm.addLink((Link) link3);
         robotArm.connect(purpleJoint, link3);
 
-        Joint newJoint = new Joint("new joint3", new Point3D(0, 0, ((Link)link3).length), 18, 35, Rotate.X_AXIS);
+        Joint newJoint = new Joint("new joint3", new Point3D(0, 0, ((Link)link3).length), Rotate.X_AXIS);
         newJoint.setMaterial(new PhongMaterial(Color.WHITE));
         robotArm.addJoint(newJoint);
         robotArm.connect(link3, newJoint);

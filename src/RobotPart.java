@@ -9,9 +9,13 @@ public abstract class RobotPart {
     public final Point3D getPosition() {
         return position;
     }
+
+
     protected final void setPosition(Point3D position) {
         this.position = position;
     }
+
+
     protected final void setName(String name) {
         this.name = name;
     }

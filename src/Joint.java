@@ -29,7 +29,7 @@ public class Joint extends RobotPart implements Movable {
         visual = new Cylinder(rad, h);
         this.visual.setMaterial(new PhongMaterial(color)); // Установка цвета
         this.visual.getTransforms().add(new Rotate(90, Rotate.Z_AXIS));
-        this.group.getChildren().add(new Group(visual));
+        this.group.getChildren().add(visual);
         this.setPosition(pos);
         this.group.setTranslateX(pos.getX());
         this.group.setTranslateY(pos.getY());
@@ -49,15 +49,6 @@ public class Joint extends RobotPart implements Movable {
     public Joint(String name, Point3D pos, Point3D axis) {
         this(name, pos, 20.0, 40.0, axis, Color.GRAY);
     }
-
-
-
-    public void moveDelta(double delta) throws InvalidMovementException {
-        double targetAngle = getRotationAngle() + delta;
-        setRotationAngle(targetAngle);
-    }
-
-
 
 
     public void setRotationAngle(double angle) throws InvalidMovementException {

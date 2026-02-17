@@ -26,15 +26,6 @@ public class Link extends RobotPart {
     }
 
 
-
-    public void updatePosition(Point3D newPosition) {
-        this.setPosition(newPosition);
-        group.setTranslateX(newPosition.getX());
-        group.setTranslateY(newPosition.getY());
-        group.setTranslateZ(newPosition.getZ());
-    }
-
-
     public void setMaterial(PhongMaterial material) {
         visual.setMaterial(material);
     }
